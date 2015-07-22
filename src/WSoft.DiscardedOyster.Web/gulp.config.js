@@ -7,11 +7,10 @@
     var client = owinpaths.webroot;
     var server = './src/server/';
     var clientApp = client + 'app/';
-    var app = '**/app/';
     var report = './report/';
     var root = './';
     var specRunnerFile = 'specs.html';
-    var temp = './.tmp/';
+    var temp = client +'.tmp/';
     var wiredep = require('wiredep');
     var bowerFiles = wiredep({ devDependencies: true })['js'];
     var bower = {

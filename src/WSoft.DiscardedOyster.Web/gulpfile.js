@@ -17,6 +17,51 @@ gulp.task('default', ['help']);
 
 
 /**
+ * Copies all files from client folder to wwwroot 
+ * @return {Stream}
+ */
+gulp.task('copy-client', function () {
+    log('copy-client');
+
+    return gulp.src(['scripts/client/app/**/*']).pipe(gulp.dest('wwwroot/app'));
+});
+
+/**
+ * Create $templateCache from the html templates
+ * @return {Stream}
+ */
+gulp.task('templatecache', ['clean-code'], function () {
+    log('Creating an AngularJS $templateCache');
+
+    return gulp
+        .src(config.htmltemplates)
+        .pipe($.if(args.verbose, $.bytediff.start()))
+        .pipe($.minifyHtml({ empty: true }))
+        .pipe($.if(args.verbose, $.bytediff.stop(bytediffFormatter)))
+        .pipe($.angularTemplatecache(
+            config.templateCache.file,
+            config.templateCache.options
+        ))
+        .pipe(gulp.dest(config.temp));
+});
+
+/**
+ * Compile less to css
+ * @return {Stream}
+ */
+gulp.task('styles', ['clean-styles'], function () {
+    log('Compiling Less --> CSS');
+
+    return gulp
+        .src(config.less)
+        .pipe($.plumber()) // exit gracefully if something fails after this
+        .pipe($.less())
+//        .on('error', errorLogger) // more verbose and dupe output. requires emit.
+        .pipe($.autoprefixer({ browsers: ['last 2 version', '> 5%'] }))
+        .pipe(gulp.dest(config.temp));
+});
+
+/**
  * Remove all js and html from the build and temp folders
  * @param  {Function} done - callback when complete
  */
@@ -45,7 +90,7 @@ gulp.task('clean-styles', function (done) {
  * Wire-up the bower dependencies
  * @return {Stream}
  */
-gulp.task('wiredep', function () {
+gulp.task('wiredep', ['copy-client'], function () {
     log('Wiring the bower dependencies into the html');
     var wiredep = require('wiredep').stream;
     var options = config.getWiredepDefaultOptions();
@@ -59,6 +104,13 @@ gulp.task('wiredep', function () {
         .pipe(gulp.dest(config.client));
 });
 
+gulp.task('inject', ['wiredep', 'styles', 'templatecache'], function () {
+    log('Wire up css into the html, after files are ready');
+    return gulp
+        .src(config.index)
+        .pipe(inject(config.css))
+        .pipe(gulp.dest(config.client));
+});
 
 function changeEvent(event) {
     var srcPattern = new RegExp('/.*(?=/' + config.source + ')/');
