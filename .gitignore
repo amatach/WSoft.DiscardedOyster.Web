@@ -6,7 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-
+/.tmp/
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -24,7 +24,7 @@ bld/
 
 # Visual Studio 2015 cache/options directory
 .vs/
-
+wwwwroot/
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
@@ -172,6 +172,7 @@ ClientBin/
 *.pfx
 *.publishsettings
 node_modules/
+bower_components/
 orleans.codegen.cs
 
 # RIA/Silverlight projects
