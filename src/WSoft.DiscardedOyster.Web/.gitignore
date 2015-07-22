@@ -1,0 +1,77 @@
+/build/
+.DS_Store
+gen_docs.disable
+test.disable
+.idea/workspace.xml
+node_modules
+bower_components
+report
+.idea
+*.iml
+npm-debug.log
+/.tmp/
+wwwwroot/lib/
+wwwwroot/bin/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+\# Visual Studio 2015 cache/options directory
+.vs/
+
+
+# DNX
+project.lock.json
+artifacts/
+*_i.c
+*_p.c
+*_i.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+# ReSharper is a .NET coding add-in
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+# Publish Web Output
+*.[Pp]ublish.xml
+*.azurePubxml
+# TODO: Comment the next line if you want to checkin your web deploy settings 
+# but database connection strings (with potential passwords) will be unencrypted
+*.pubxml
+*.publishproj
+
+# NuGet Packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+# except build/, which is used as an MSBuild target.
+!**/packages/build/
+# Uncomment if necessary however generally it will be regenerated when needed
+#!**/packages/repositories.config
+
+# Windows Azure Build Output
+csx/
+*.build.csdef
+# Node.js Tools for Visual Studio
+.ntvs_analysis.dat
+
