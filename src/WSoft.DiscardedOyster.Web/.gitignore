@@ -18,7 +18,7 @@ npm-debug.log
 
 \# Visual Studio 2015 cache/options directory
 .vs/
-wwwwroot/
+wwwwroot
 
 # DNX
 project.lock.json
