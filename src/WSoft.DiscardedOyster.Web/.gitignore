@@ -10,7 +10,7 @@ report
 *.iml
 npm-debug.log
 /.tmp/
-/wwwwroot/lib/[^.]*
+/app/
 *.suo
 *.user
 *.userosscache
