@@ -17,6 +17,15 @@ gulp.task('help', $.taskListing);
 gulp.task('default', ['help']);
 
 
+/**
+ * Copt web.config to wwwroot 
+ * @return {Stream}
+ */
+gulp.task('copy-webconfig', function () {
+    log('copy-client');
+
+    return gulp.src(['server/web.config']).pipe(gulp.dest('wwwroot'));
+});
 
 /**
  * Copies all files from client folder to wwwroot 
@@ -122,7 +131,7 @@ gulp.task('clean-styles', function (done) {
  * Wire-up the bower dependencies
  * @return {Stream}
  */
-gulp.task('wiredep', ['copy-bower','copy-client'], function () {
+gulp.task('wiredep', ['copy-bower', 'copy-client', 'copy-webconfig'], function () {
     log('Wiring the bower dependencies into the html');
     var wiredep = require('wiredep').stream;
     var options = config.getWiredepDefaultOptions();
