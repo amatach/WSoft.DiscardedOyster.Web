@@ -1,4 +1,5 @@
-﻿var args = require('yargs').argv;
+﻿/// <binding BeforeBuild='inject' />
+var args = require('yargs').argv;
 var browserSync = require('browser-sync');
 var config = require('./gulp.config')();
 var del = require('del');
