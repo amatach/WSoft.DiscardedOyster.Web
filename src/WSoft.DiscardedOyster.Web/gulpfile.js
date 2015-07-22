@@ -171,7 +171,11 @@ function inject(src, label, order) {
     {
         read: false,
         transform: function (filePath, file, i, length) {
-            return '<script src="' + filePath.replace('/wwwroot/', '') + '"></script>';
+            if (filePath.indexOf('.js') > -1) {
+                return '<script src="' + filePath.replace('/wwwroot/', '') + '"></script>';
+            } else {
+                return '<link rel="stylesheet" href="' + filePath.replace('/wwwroot/', '') + '"/>';
+            }
         }
     };
     if (label) {
@@ -180,7 +184,6 @@ function inject(src, label, order) {
 
     return $.inject(orderSrc(src, order), options);
 }
-
 /**
  * Order a stream
  * @param   {Stream} src   The gulp.src stream
