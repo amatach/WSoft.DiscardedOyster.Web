@@ -16,11 +16,42 @@ gulp.task('help', $.taskListing);
 gulp.task('default', ['help']);
 
 
+
 /**
  * Copies all files from client folder to wwwroot 
  * @return {Stream}
  */
-gulp.task('copy-client', function () {
+gulp.task('copy-bower', function () {
+    log('copy-client');
+
+    return gulp.src(['bower_components/**/*']).pipe(gulp.dest('wwwroot/lib'));
+});
+
+/**
+ * Copies styles from styles folder to wwwroot 
+ * @return {Stream}
+ */
+gulp.task('copy-styles', function () {
+    log('copy-index');
+
+    return gulp.src(['styles/**/*']).pipe(gulp.dest('wwwroot/styles'));
+});
+
+/**
+ * Copies index from client folder to wwwroot 
+ * @return {Stream}
+ */
+gulp.task('copy-index', function () {
+    log('copy-index');
+
+    return gulp.src(['scripts/client/index.html']).pipe(gulp.dest('wwwroot'));
+});
+
+/**
+ * Copies all files from client folder to wwwroot 
+ * @return {Stream}
+ */
+gulp.task('copy-client', ['copy-index', 'copy-styles'], function () {
     log('copy-client');
 
     return gulp.src(['scripts/client/app/**/*']).pipe(gulp.dest('wwwroot/app'));
@@ -90,7 +121,7 @@ gulp.task('clean-styles', function (done) {
  * Wire-up the bower dependencies
  * @return {Stream}
  */
-gulp.task('wiredep', ['copy-client'], function () {
+gulp.task('wiredep', ['copy-bower','copy-client'], function () {
     log('Wiring the bower dependencies into the html');
     var wiredep = require('wiredep').stream;
     var options = config.getWiredepDefaultOptions();
