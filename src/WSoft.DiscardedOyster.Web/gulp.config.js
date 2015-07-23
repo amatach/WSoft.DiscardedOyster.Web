@@ -28,8 +28,7 @@
          */
         // all javascript that we want to vet
         alljs: [
-            './src/**/*.js',
-            './*.js'
+            './scripts/**/*.js'
         ],
         build: './build/',
         client: client,

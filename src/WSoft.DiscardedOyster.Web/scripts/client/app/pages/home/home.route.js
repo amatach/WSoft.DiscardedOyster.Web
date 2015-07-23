@@ -49,21 +49,21 @@
                         }
                     }
                 }
-            },{
-                state:'step1',
+            }, {
+                state: 'step1',
                 config: {
-                    parent:'registration',
-                    url:'registration',
+                    parent: 'registration',
+                    url: 'registration',
                     views: {
                         'registration': {
-                            templateUrl:'app/pages/home/' +
+                            templateUrl: 'app/pages/home/' +
                                 'registration/step1/registration-step1.html',
                             controller: 'RegistrationStep1Controller',
                             controllerAs: 'vm'
-                            }
                         }
                     }
-            },  {
+                }
+            }, {
                 state:'step2',
                 config: {
                     parent:'registration',

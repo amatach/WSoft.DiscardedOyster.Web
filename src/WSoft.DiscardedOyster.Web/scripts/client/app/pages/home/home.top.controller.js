@@ -15,7 +15,7 @@
         var vm = this;
         vm.navigate =  navigate;
 
-        function navigate(){
+        function navigate() {
             $state.go('step1');
         }
     }

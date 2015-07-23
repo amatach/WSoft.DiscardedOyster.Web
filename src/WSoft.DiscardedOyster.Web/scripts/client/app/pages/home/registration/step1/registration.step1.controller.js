@@ -13,10 +13,9 @@
     function RegistrationStep1Controller($state) {
 
         var vm = this;
-        vm.navigate =  navigate;
+        vm.navigate = navigate;
 
-        function navigate(){
-            console.log("step2");
+        function navigate() {
             $state.go('step2');
         }
     }
