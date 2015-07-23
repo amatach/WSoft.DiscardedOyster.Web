@@ -98,17 +98,17 @@ gulp.task('copy-bower', function () {
  * Copies index from client folder to wwwroot 
  * @return {Stream}
  */
-gulp.task('copy-index', function () {
-    log('copy-index');
+//gulp.task('copy-index', function () {
+//    log('copy-index');
 
-    return gulp.src(['scripts/client/index.html']).pipe(gulp.dest('wwwroot'));
-});
+//    return gulp.src(['scripts/client/index.html']).pipe(gulp.dest('wwwroot'));
+//});
 
 /**
  * Copies all files from client folder to wwwroot 
  * @return {Stream}
  */
-gulp.task('copy-client', ['copy-index'], function () {
+gulp.task('copy-client', function () {
     log('copy-client');
 
     return gulp.src(['scripts/client/app/**/*']).pipe(gulp.dest('wwwroot/app'));
@@ -184,12 +184,31 @@ gulp.task('wiredep', ['copy-bower', 'copy-client', 'copy-webconfig', 'styles'], 
     var options = config.getWiredepDefaultOptions();
     // Only include stubs if flag is enabled
     var js = args.stubs ? [].concat(config.js, config.stubsjs) : config.js;
-    log(js);
+
+    options.fileTypes =
+    {
+        cshtml: {
+            block: /(([ \t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi,
+            detect: {
+                js: /<script.*src=['"]([^'"]+)/gi,
+                css: /<link.*href=['"]([^'"]+)/gi
+            },
+            replace: {
+                js: function (filePath) {
+                      return '<script src="' + filePath.replace('/wwwroot/', '') + '"></script>';
+                },
+                css: function (filePath) {
+                      return '<link rel="stylesheet" href="' + filePath.replace('/wwwroot/', '') + '"/>';
+                }
+            }
+        }
+    }
+
     return gulp
-        .src(config.index)
+        .src('./Views/Shared/_Layout.cshtml')
         .pipe(wiredep(options))
         .pipe(inject(js, '', config.jsOrder))
-        .pipe(gulp.dest(config.client));
+        .pipe(gulp.dest('./Views/Shared/'));
 });
 
 
@@ -197,9 +216,9 @@ gulp.task('inject', ['wiredep'], function () {
    
     log('Wire up css into the html, after files are ready');
     return gulp
-        .src(config.index)
+        .src('./Views/Shared/_Layout.cshtml')
         .pipe(inject(config.css))
-        .pipe(gulp.dest(config.client));
+        .pipe(gulp.dest('./Views/Shared/'));
 });
 
 function changeEvent(event) {

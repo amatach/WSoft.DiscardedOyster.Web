@@ -15,18 +15,23 @@ namespace WSoft.DiscardedOyster.Web
 {
     public class Startup
     {
-        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add MVC services to the services container.
+            services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.MinimumLevel = LogLevel.Information;
             loggerFactory.AddConsole();
-            app.UseFileServer(new FileServerOptions()
+
+            app.UseStaticFiles();
+            app.UseMvc(routes =>
             {
-                EnableDefaultFiles = true
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}");
             });
         }
     }

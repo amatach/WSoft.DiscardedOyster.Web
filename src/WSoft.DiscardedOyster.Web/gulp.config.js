@@ -15,7 +15,7 @@
     var bowerFiles = wiredep({ devDependencies: true })['js'];
     var bower = {
         json: require('./bower.json'),
-        directory: client + './lib/',
+        directory:client+ './lib/',
         ignorePath: '../..'
     };
     var nodeModules = 'node_modules';
