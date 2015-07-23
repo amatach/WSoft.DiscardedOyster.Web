@@ -44,6 +44,11 @@
             clientApp + '**/*.js',
             '!' + clientApp + '**/*.spec.js'
         ],
+        devJs: [
+            'scripts/client/' + '**/*.module.js',
+            'scripts/client/' + '**/*.js',
+            '!' + 'scripts/client/' + '**/*.spec.js'
+        ],
         jsOrder: [
             '**/app.module.js',
             '**/*.module.js',
@@ -102,7 +107,7 @@
         /**
          * specs.html, our HTML spec runner
          */
-        specRunner: client + specRunnerFile,
+        specRunner: 'scripts/client/' + specRunnerFile,
         specRunnerFile: specRunnerFile,
 
         /**
@@ -121,14 +126,14 @@
             nodeModules + '/mocha-clean/index.js',
             nodeModules + '/sinon-chai/lib/sinon-chai.js'
         ],
-        specHelpers: [client + 'test-helpers/*.js'],
-        specs: [clientApp + '**/*.spec.js'],
-        serverIntegrationSpecs: [client + '/tests/server-integration/**/*.spec.js'],
+        specHelpers: ['scripts/client/' + 'test-helpers/*.js'],
+        specs: ['scripts/client/app/' + '**/*.spec.js'],
+        serverIntegrationSpecs: ['scripts/client/app/' + '/tests/server-integration/**/*.spec.js'],
 
         /**
          * Node settings
          */
-        nodeServer: './src/server/app.js',
+        nodeServer: './server/app.js',
         defaultPort: '8001'
     };
 

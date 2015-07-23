@@ -17,6 +17,46 @@ gulp.task('help', $.taskListing);
 gulp.task('default', ['help']);
 
 
+
+/**
+ * Run the spec runner
+ * @return {Stream}
+ */
+gulp.task('serve-specs', ['build-specs'], function (done) {
+    log('run the spec runner');
+    serve(true /* isDev */, true /* specRunner */);
+    done();
+});
+
+gulp.task('build-specs', ['templatecache'], function(done) {
+    log('building the spec runner');
+    var wiredep = require('wiredep').stream;
+
+    var templateCache = config.temp + config.templateCache.file;
+    var options = config.getWiredepDefaultOptions();
+    var specs = config.specs;
+
+    if (args.startServers) {
+        specs = [].concat(specs, config.serverIntegrationSpecs);
+    }
+    options.devDependencies = true;
+    options.onError = function (err) { log(err)};
+    options.directory = './bower_components/';
+    return gulp
+       .src(config.specRunner)
+        .pipe(wiredep(options))
+        .pipe(injectnotransform(config.devJs, '', config.jsOrder))
+        .pipe(injectnotransform(config.testlibraries, 'testlibraries'))
+        .pipe(injectnotransform(config.specHelpers, 'spechelpers'))
+        .pipe(injectnotransform(specs, 'specs', ['**/*']))
+        .pipe(injectnotransform(templateCache, 'templates'))
+        .pipe(gulp.dest('scripts/client/'));
+});
+
+gulp.task('test', ['vet', 'templatecache'], function (done) {
+    startTests(true /*singleRun*/, done);
+});
+
 /**
  * vet the code and create coverage report
  * @return {Stream}
@@ -200,6 +240,18 @@ function inject(src, label, order) {
         options.name = 'inject:' + label;
     }
 
+    return $.inject(orderSrc(src, order), options);
+}
+
+function injectnotransform(src, label, order) {
+    var options =
+    {
+        read: false
+    };
+    if (label) {
+        options.name = 'inject:' + label;
+    }
+    log(src);
     return $.inject(orderSrc(src, order), options);
 }
 /**
