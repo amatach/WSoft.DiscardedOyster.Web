@@ -42,17 +42,7 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-    <script>
-    (function(w) {
-        var config = '{"apiHost":"http://localhost:62202/","apiPrefix":"api/","debugEnabled":true,"appErrorPrefix":"[Discarded Oyster Error] ","projectTitle":"Discarded Oyster"}';
-        var configObj = JSON.parse(config);
-        angular.extend(configObj, {
-            projectTitle: configObj.projectTitle
-        });
-        w.odConfig = configObj;
-    }(window));
-    </script>
-
+    @RenderSection("config", false)
 
     <!-- build:js js/app.js -->
     <!-- inject:js -->
@@ -79,6 +69,7 @@
     <script src="app/pages/home/home.bottom.controller.js"></script>
     <script src="app/pages/home/home.route.js"></script>
     <script src="app/pages/home/home.top.controller.js"></script>
+    <script src="app/pages/home/pollen/step1/pollen.step1.controller.js"></script>
     <script src="app/pages/home/registration/step1/registration.step1.controller.js"></script>
     <script src="app/service/appconfig.factory.js"></script>
     <!-- endinject -->

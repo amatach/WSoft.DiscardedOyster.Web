@@ -1,1 +1,14 @@
 ﻿<div data-ng-include="'app/layout/shell.html'" ng-controller="ShellController as vm"></div>
+
+@section config{
+    <script>
+        (function(w) {
+            var config = '{"apiHost":"http://localhost:62202/","apiPrefix":"api/","debugEnabled":true,"appErrorPrefix":"[Discarded Oyster Error] ","projectTitle":"Discarded Oyster"}';
+            var configObj = JSON.parse(config);
+            angular.extend(configObj, {
+                projectTitle: configObj.projectTitle
+            });
+            w.odConfig = configObj;
+        }(window));
+    </script>
+}
