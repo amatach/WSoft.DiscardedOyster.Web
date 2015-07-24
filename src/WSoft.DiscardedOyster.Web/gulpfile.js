@@ -20,7 +20,7 @@ gulp.task('default', ['help']);
 
 /**
  * Run the spec runner
- * @return {Stream}
+ * @return {Stream}c:\development\wsoft.discardedoyster.web\src\wsoft.discardedoyster.web\server\
  */
 gulp.task('serve-specs', ['build-specs'], function (done) {
     log('run the spec runner');
@@ -41,11 +41,10 @@ gulp.task('build-specs', ['templatecache'], function(done) {
     }
     options.devDependencies = true;
     options.onError = function (err) { log(err)};
-    options.directory = './bower_components/';
     return gulp
        .src(config.specRunner)
         .pipe(wiredep(options))
-        .pipe(injectnotransform(config.devJs, '', config.jsOrder))
+        .pipe(injectnotransform(config.js, '', config.jsOrder))
         .pipe(injectnotransform(config.testlibraries, 'testlibraries'))
         .pipe(injectnotransform(config.specHelpers, 'spechelpers'))
         .pipe(injectnotransform(specs, 'specs', ['**/*']))
@@ -73,46 +72,6 @@ gulp.task('vet', function () {
         .pipe($.jscs());
 });
 
-/**
- * Copt web.config to wwwroot 
- * @return {Stream}
- */
-gulp.task('copy-webconfig', function () {
-    log('copy-webconfig');
-
-    return gulp.src(['server/web.config']).pipe(gulp.dest('wwwroot'));
-});
-
-/**
- * Copies all files from client folder to wwwroot 
- * @return {Stream}
- */
-gulp.task('copy-bower', function () {
-    log('copy-bower');
-
-    return gulp.src(['bower_components/**/*']).pipe(gulp.dest('wwwroot/lib'));
-});
-
-
-/**
- * Copies index from client folder to wwwroot 
- * @return {Stream}
- */
-//gulp.task('copy-index', function () {
-//    log('copy-index');
-
-//    return gulp.src(['scripts/client/index.html']).pipe(gulp.dest('wwwroot'));
-//});
-
-/**
- * Copies all files from client folder to wwwroot 
- * @return {Stream}
- */
-gulp.task('copy-client', function () {
-    log('copy-client');
-
-    return gulp.src(['scripts/client/app/**/*']).pipe(gulp.dest('wwwroot/app'));
-});
 
 /**
  * Create $templateCache from the html templates
@@ -141,14 +100,19 @@ gulp.task('styles', ['clean-styles'], function () {
     log('Compiling Less --> CSS');
 
     return gulp
-        .src('styles/styles.less')
+        .src('./wwwroot/styles/styles.less')
         .pipe($.plumber()) // exit gracefully if something fails after this
         .pipe($.less())
-//        .on('error', errorLogger) // more verbose and dupe output. requires emit.
+        .on('error', errorLogger) // more verbose and dupe output. requires emit.
         .pipe($.autoprefixer({ browsers: ['last 2 version', '> 5%'] }))
         .pipe(gulp.dest(config.temp));
 });
 
+function errorLogger(error) {
+    log('*** Start of Error ***');
+    log(error);
+    log('*** End of Error ***');    this.emit('end');
+}
 /**
  * Remove all js and html from the build and temp folders
  * @param  {Function} done - callback when complete
@@ -178,7 +142,7 @@ gulp.task('clean-styles', function (done) {
  * Wire-up the bower dependencies
  * @return {Stream}
  */
-gulp.task('wiredep', ['copy-bower', 'copy-client', 'copy-webconfig', 'styles'], function () {
+gulp.task('wiredep', ['styles'], function () {
     log('Wiring the bower dependencies into the html');
     var wiredep = require('wiredep').stream;
     var options = config.getWiredepDefaultOptions();

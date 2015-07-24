@@ -28,7 +28,7 @@
          */
         // all javascript that we want to vet
         alljs: [
-            './scripts/**/*.js'
+           client+ '/app/**/*.js'
         ],
         build: './build/',
         client: client,
@@ -127,13 +127,13 @@
             nodeModules + '/sinon-chai/lib/sinon-chai.js'
         ],
         specHelpers: ['scripts/client/' + 'test-helpers/*.js'],
-        specs: ['scripts/client/app/' + '**/*.spec.js'],
-        serverIntegrationSpecs: ['scripts/client/app/' + '/tests/server-integration/**/*.spec.js'],
+        specs: [clientApp + '**/*.spec.js'],
+        serverIntegrationSpecs: ['scripts/client/' + '/tests/server-integration/**/*.spec.js'],
 
         /**
          * Node settings
          */
-        nodeServer: './server/app.js',
+        nodeServer: './scripts/server/app.js',
         defaultPort: '8001'
     };
 
