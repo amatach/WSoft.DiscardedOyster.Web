@@ -7,7 +7,8 @@
         'app.widgets',
         'app.layout',
         /* Feature areas */
-        'app.pages.home'
+        'app.pages.home',
+        'app.pages.pollen'
     ]);
 
 })();

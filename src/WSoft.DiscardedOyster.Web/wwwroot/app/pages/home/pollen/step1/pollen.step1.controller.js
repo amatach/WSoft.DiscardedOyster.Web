@@ -5,12 +5,12 @@
     'use strict';
 
     angular
-        .module('app.pages.home')
+        .module('app.pages.pollen')
         .controller('PollenStep1Controller', PollenStep1Controller);
 
-    PollenStep1Controller.$inject = ['$state'];
+    PollenStep1Controller.$inject = ['pollenApiService'];
     /* @ngInject */
-    function PollenStep1Controller($state) {
+    function PollenStep1Controller(pollenApiService) {
 
         var vm = this;
         vm.navigate = navigate;
